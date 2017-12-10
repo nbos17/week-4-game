@@ -43,18 +43,21 @@
   </header>
 
   <div class="container">
-    <div class="selection">
       <h1 id="available">Choose Your Character</h1>
+    <div class="selection">
       <div class="character" id="yoda">Yoda<br><span class="health1">150</span></div>
       <div class="character" id="rey">Rey<br><span class="health2">75</span></div>
       <div class="character" id="vader">Darth Vader<br><span class="health3">125</span></div>
       <div class="character" id="kylo">Kylo Ren<br><span class="health4">100</span></div>
    </div>
 
-  <div class="holder"><h2>Chosen</h2><span id="chosen"></span></div>
+  <div class="holder"><h2>Your Character</h2><span id="chosen"></span></div>
   <div class="holder"><button id='attack'>ATTACK!</button></div>
   <div class="holder"><h2>Attacker</h2><span id="chosenEnemy"></span></div>
   <div class="holder"><span id='info'></span></div>
+  <div class="holder"><span id='counterInfo'></span></div>
+  <div class="holder"><h2 id='AvailEnemies'>Available Enemies</h2></div>
+  </div>
 
 
   <script type="text/javascript">
@@ -98,7 +101,8 @@
     var counterAttack;
     var opposingHp;
     var oppenentName;
-    var enemiesDefeated = 0;   
+    var enemiesDefeated = 0;  
+    var enemiesSelected = 0; 
 
     function updateHealth() {
       $('.health1').text(yoda.health);
@@ -109,6 +113,7 @@
 
 
 $( document ).ready(function() {
+
     // Yoda selected
     $("#yoda").on('click', function() {
      if (yourChoice === false) {
@@ -118,6 +123,7 @@ $( document ).ready(function() {
         hp = chosenOne.health;
         console.log(attackPoints);
         yourChoice = true;
+        moveToEnemies();
       }
       else {
         $('#chosenEnemy').empty();
@@ -127,10 +133,11 @@ $( document ).ready(function() {
         counterAttack = enemy.counter;
         opposingHp = enemy.health;
         enemyChoice = true;
+        enemiesSelected++;
       }
     });
 
-      //Rey selected
+    //Rey selected
     $("#rey").on('click', function() {
       if (yourChoice === false) {
         $('#chosen').append($(this));
@@ -139,6 +146,7 @@ $( document ).ready(function() {
         hp = chosenOne.health;
         console.log(attackPoints);
         yourChoice = true;
+        moveToEnemies();
       }
       else {
         $('#chosenEnemy').empty();
@@ -148,6 +156,7 @@ $( document ).ready(function() {
         counterAttack = enemy.counter;
         opposingHp = enemy.health;
         enemyChoice = true;
+        enemiesSelected++;
       }
     });
 
@@ -160,6 +169,7 @@ $( document ).ready(function() {
           hp = chosenOne.health;
           console.log(attackPoints);
           yourChoice = true;
+          moveToEnemies();
         }
         else {
           $('#chosenEnemy').empty();
@@ -169,6 +179,7 @@ $( document ).ready(function() {
           counterAttack = enemy.counter;
           opposingHp = enemy.health;
           enemyChoice = true;
+          enemiesSelected++;
         }
       });
 
@@ -181,6 +192,7 @@ $( document ).ready(function() {
           hp = chosenOne.health;
           console.log(attackPoints);
           yourChoice = true;
+          moveToEnemies();
         }
         else {
           $('#chosenEnemy').empty();
@@ -190,11 +202,17 @@ $( document ).ready(function() {
           counterAttack = enemy.counter;
           opposingHp = enemy.health;
           enemyChoice = true;
+          enemiesSelected++;
         }
       });
-    
-    
+
   });
+
+function moveToEnemies () {
+    if (yourChoice === true) {
+      $('.selection').appendTo($('#AvailEnemies'));
+    }
+  }
 
   //Attack Button Function
   $('#attack').on('click', function() {
@@ -202,20 +220,19 @@ $( document ).ready(function() {
     if (hp > 0) {
       opposingHp = opposingHp - attackPoints;
       hp = hp - counterAttack;
+      $('#info').text("You attacked with " + attackPoints + " power");
+      $('#counterInfo').text(enemy.name + " counter attacked with " + enemy.counter + " power");
       attackPoints = attackPoints + chosenOne.attack;
       chosenOne.health = hp;
       enemy.health = opposingHp;
       updateHealth();
-      $('#info').text("You attacked with" attackPoints "power");
-
-      console.log(opposingHp);
-      console.log(hp);
 
       if (hp <= 0) {
         alert("Game Over");
       }
       else if (opposingHp <= 0) {
         $('#chosenEnemy').text("You have defeated " + oppenentName + "! Pick new Enemy");
+        $('#counterInfo').empty();
         enemyChoice = false;
         opposingHp = opposingHp;
         enemiesDefeated++;
