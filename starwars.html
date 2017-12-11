@@ -32,6 +32,11 @@
       margin-bottom: 20px;
       clear: both;
     }
+    #placeholder {
+      /*background-color: blue;*/
+      /*display: none;*/
+      clear: both;
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
@@ -53,10 +58,11 @@
 
   <div class="holder"><h2>Your Character</h2><span id="chosen"></span></div>
   <div class="holder"><button id='attack'>ATTACK!</button></div>
-  <div class="holder"><h2>Attacker</h2><span id="chosenEnemy"></span></div>
+  <div class="holder" id="chosenEnemy"><h2>Attacker</h2><span></span></div>
   <div class="holder"><span id='info'></span></div>
   <div class="holder"><span id='counterInfo'></span></div>
-  <div class="holder"><h2 id='AvailEnemies'>Available Enemies</h2></div>
+  <div class="holder" id='AvailEnemies'><h2>Available Enemies</h2></div>
+  <div id="placeholder"></div>
   </div>
 
 
@@ -102,7 +108,6 @@
     var opposingHp;
     var oppenentName;
     var enemiesDefeated = 0;  
-    var enemiesSelected = 0; 
 
     function updateHealth() {
       $('.health1').text(yoda.health);
@@ -121,7 +126,6 @@ $( document ).ready(function() {
         chosenOne = yoda;
         attackPoints = chosenOne.attack;
         hp = chosenOne.health;
-        console.log(attackPoints);
         yourChoice = true;
         moveToEnemies();
       }
@@ -133,7 +137,6 @@ $( document ).ready(function() {
         counterAttack = enemy.counter;
         opposingHp = enemy.health;
         enemyChoice = true;
-        enemiesSelected++;
       }
     });
 
@@ -144,7 +147,6 @@ $( document ).ready(function() {
         chosenOne = rey;
         attackPoints = chosenOne.attack;
         hp = chosenOne.health;
-        console.log(attackPoints);
         yourChoice = true;
         moveToEnemies();
       }
@@ -156,7 +158,6 @@ $( document ).ready(function() {
         counterAttack = enemy.counter;
         opposingHp = enemy.health;
         enemyChoice = true;
-        enemiesSelected++;
       }
     });
 
@@ -167,7 +168,6 @@ $( document ).ready(function() {
           chosenOne = vader;
           attackPoints = chosenOne.attack;
           hp = chosenOne.health;
-          console.log(attackPoints);
           yourChoice = true;
           moveToEnemies();
         }
@@ -179,7 +179,6 @@ $( document ).ready(function() {
           counterAttack = enemy.counter;
           opposingHp = enemy.health;
           enemyChoice = true;
-          enemiesSelected++;
         }
       });
 
@@ -190,7 +189,6 @@ $( document ).ready(function() {
           chosenOne = kylo;
           attackPoints = chosenOne.attack;
           hp = chosenOne.health;
-          console.log(attackPoints);
           yourChoice = true;
           moveToEnemies();
         }
@@ -202,16 +200,31 @@ $( document ).ready(function() {
           counterAttack = enemy.counter;
           opposingHp = enemy.health;
           enemyChoice = true;
-          enemiesSelected++;
         }
       });
 
   });
+  
+  // move non-chosen elements to enemies
+  function moveToEnemies () {
+      if (yourChoice === true) {
+        $('.selection').appendTo($('#AvailEnemies'));
+      }
+  }
 
-function moveToEnemies () {
-    if (yourChoice === true) {
-      $('.selection').appendTo($('#AvailEnemies'));
-    }
+  function reset() {
+    // var attackPoints;
+    // var hp;
+    // var counterAttack;
+    // var opposingHp;
+    // var oppenentName;
+    // var enemiesDefeated = 0; 
+    // var yourChoice = false;
+    // var enemyChoice = false;
+    // var chosenOne;
+    // var enemy;
+    $('#character').appendTo($('h1'));
+    //$('.selection').appendTo($('h1'));
   }
 
   //Attack Button Function
@@ -231,14 +244,16 @@ function moveToEnemies () {
         alert("Game Over");
       }
       else if (opposingHp <= 0) {
-        $('#chosenEnemy').text("You have defeated " + oppenentName + "! Pick new Enemy");
+        $('#info').text("You have defeated " + oppenentName + "! Pick new Enemy");
+        $('#chosenEnemy').clone().appendTo($('#placeholder'));
         $('#counterInfo').empty();
         enemyChoice = false;
         opposingHp = opposingHp;
         enemiesDefeated++;
         if (enemiesDefeated >= 3) {
-          $('#chosenEnemy').empty();
+          $('#info').empty();
           $('#chosenEnemy').text("Congrats! You have defeated all the Enemies. You are victorious!");
+          reset();
         }
       }
     }
