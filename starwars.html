@@ -15,6 +15,16 @@
       margin-bottom: 10px;
       margin-right: 10px;
     }
+    .abc {
+      border-style: solid;
+      border-color: black;
+      border-width: 1px;
+      width: 100px
+      height: 200px;
+      float: left;
+      margin-bottom: 10px;
+      margin-right: 10px;
+    }
     h2 {
       clear: all;
     }
@@ -34,7 +44,7 @@
     }
     #placeholder {
       /*background-color: blue;*/
-      /*display: none;*/
+      display: none;
       clear: both;
     }
   </style>
@@ -119,9 +129,12 @@
 
 $( document ).ready(function() {
 
+    //$('.character').clone().appendTo($('#placeholder'));
     // Yoda selected
     $("#yoda").on('click', function() {
      if (yourChoice === false) {
+        $('#yoda').removeClass('character').addClass("abc");
+        console.log(this);
         $('#chosen').append($(this));
         chosenOne = yoda;
         attackPoints = chosenOne.attack;
@@ -130,8 +143,8 @@ $( document ).ready(function() {
         moveToEnemies();
       }
       else {
-        $('#chosenEnemy').empty();
         $('#chosenEnemy').append($(this));
+        $('#chosenEnemy').show();
         enemy = yoda;
         oppenentName = enemy.name;
         counterAttack = enemy.counter;
@@ -143,6 +156,7 @@ $( document ).ready(function() {
     //Rey selected
     $("#rey").on('click', function() {
       if (yourChoice === false) {
+        $('#rey').removeClass('character').addClass("abc");
         $('#chosen').append($(this));
         chosenOne = rey;
         attackPoints = chosenOne.attack;
@@ -151,7 +165,7 @@ $( document ).ready(function() {
         moveToEnemies();
       }
       else {
-        $('#chosenEnemy').empty();
+       // $('#chosenEnemy').empty();
         $('#chosenEnemy').append($(this));
         enemy = rey;
         oppenentName = enemy.name;
@@ -164,6 +178,7 @@ $( document ).ready(function() {
     //Darth Vader selected
     $("#vader").on('click', function() {
        if (yourChoice === false) {
+          $('#vader').removeClass('character').addClass("abc");
           $('#chosen').append($(this));
           chosenOne = vader;
           attackPoints = chosenOne.attack;
@@ -172,7 +187,11 @@ $( document ).ready(function() {
           moveToEnemies();
         }
         else {
-          $('#chosenEnemy').empty();
+          if (chosenOne === vader) {
+            alert("Pick new Enemy");
+            return;
+          }
+         // $('#chosenEnemy').empty();
           $('#chosenEnemy').append($(this));
           enemy = vader;
           oppenentName = enemy.name;
@@ -185,6 +204,7 @@ $( document ).ready(function() {
     //kylo Ren selected
     $("#kylo").on('click', function() {
        if (yourChoice === false) {
+          $('#kylo').removeClass('character').addClass("abc");
           $('#chosen').append($(this));
           chosenOne = kylo;
           attackPoints = chosenOne.attack;
@@ -193,7 +213,7 @@ $( document ).ready(function() {
           moveToEnemies();
         }
         else {
-          $('#chosenEnemy').empty();
+          //$('#chosenEnemy').empty();
           $('#chosenEnemy').append($(this));
           enemy = kylo;
           oppenentName = enemy.name;
@@ -208,7 +228,7 @@ $( document ).ready(function() {
   // move non-chosen elements to enemies
   function moveToEnemies () {
       if (yourChoice === true) {
-        $('.selection').appendTo($('#AvailEnemies'));
+        $('.character').appendTo($('#AvailEnemies'));
       }
   }
 
@@ -244,8 +264,8 @@ $( document ).ready(function() {
         alert("Game Over");
       }
       else if (opposingHp <= 0) {
+        $('#chosenEnemy').hide();
         $('#info').text("You have defeated " + oppenentName + "! Pick new Enemy");
-        $('#chosenEnemy').clone().appendTo($('#placeholder'));
         $('#counterInfo').empty();
         enemyChoice = false;
         opposingHp = opposingHp;
@@ -253,7 +273,6 @@ $( document ).ready(function() {
         if (enemiesDefeated >= 3) {
           $('#info').empty();
           $('#chosenEnemy').text("Congrats! You have defeated all the Enemies. You are victorious!");
-          reset();
         }
       }
     }
