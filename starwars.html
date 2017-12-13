@@ -4,7 +4,25 @@
 <head>
   <meta charset="UTF-8">
   <title>Star Wars</title>
+  <link rel="stylesheet" type="text/css" href="reset.css">
   <style>
+    body {
+      font-family: sans-serif;
+      background-image:url("background.jpg");
+    }
+    #heading {
+      color: white;
+      font-size: 30px;
+      margin-bottom: 30px;
+      margin-top: 20px;
+      text-align: center;
+    }
+    h1 {  
+      color: white;
+      font-size: 25px;
+      margin-bottom: 20px;
+
+    }
     .character {
       border-style: solid;
       border-color: black;
@@ -12,10 +30,11 @@
       width: 200px;
       height: 150px;
       float: left;
-      margin-bottom: 10px;
-      margin-right: 10px;
+      margin: 20px;
       align-items: center;
       text-align: center;
+      background-color: grey;
+      align-items: center;
     }
     .villain {
       border-style: solid;
@@ -24,8 +43,11 @@
       width: 200px;
       height: 150px;
       float: left;
-      margin-bottom: 10px;
-      margin-right: 10px;
+      margin: 20px;
+      align-items: center;
+      text-align: center;
+      background-color: grey;
+      align-items: center;
     }
     .hero {
       border-style: solid;
@@ -34,11 +56,17 @@
       width: 200px;
       height: 150px;
       float: left;
-      margin-bottom: 10px;
-      margin-right: 10px;
+      margin: 20px;
+      align-items: center;
+      text-align: center;
+      background-color: grey;
+      align-items: center;
     }
     h2 {
-      clear: all;
+      color: white;
+      clear: both;
+      font-size: 25px;
+      font-weight: bold;
     }
     .container {
       width: 100%;
@@ -51,11 +79,10 @@
       clear: both;
     }
     .holder {
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       clear: both;
     }
     #placeholder {
-      /*background-color: blue;*/
       display: none;
       clear: both;
     }
@@ -63,9 +90,18 @@
       width: 100px;
       height: 100px;
       float: left;
+      margin-left: 48px;
+      margin-right: 48px;
+      margin-top: 5px;
     }
     span {
-      clear: both;
+      color: white;
+      font-weight: bold;
+    }
+    p {
+      color: white;
+      margin-bottom: 3px;
+      margin-top: 3px;
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -74,16 +110,16 @@
 <body>
 
   <header>
-    <h1>Star Wars RPG!</h1>
+    <h1 id="heading">Star Wars RPG!</h1>
   </header>
 
   <div class="container">
       <h1 id="available">Choose Your Character</h1>
     <div class="selection">
-      <div class="character" id="yoda">Yoda<br><span class="health1">150</span><img src="yoda.jpg" class="image" alt="yoda"></img></div>
-      <div class="character" id="rey">Rey<br><span class="health2">75</span><img src="rey.png" class="image"></div>
-      <div class="character" id="vader">Darth Vader<br><span class="health3">125</span><img src="vader.jpg" class = "image"></div>
-      <div class="character" id="kylo">Kylo Ren<br><span class="health4">100</span></div>
+      <div class="character" id="yoda"><p>Yoda</p><span class="health1">150</span><img src="yoda.jpg" class="image" alt="yoda"></div>
+      <div class="character" id="rey"><p>Rey</p><span class="health2">75</span><img src="rey.png" class="image" alt="rey"></div>
+      <div class="character" id="vader"><p>Darth Vader</p><span class="health3">125</span><img src="darthv.jpg" class = "image" alt="vader"></div>
+      <div class="character" id="kylo"><p>Kylo Ren</p><span class="health4">100</span><img src="kylo.jpg" class="image" alt= "kylo"></div>
    </div>
 
   <div class="holder"><h2>Your Character</h2><span id="chosen"></span></div>
@@ -93,6 +129,7 @@
   <div class="holder"><span id='counterInfo'></span></div>
   <div class="holder" id='AvailEnemies'><h2>Available Enemies</h2></div>
   <div id="placeholder"></div>
+  <div class="holder"><button id="Reset">RESET</button></div>
   </div>
 
 
@@ -101,7 +138,7 @@
     var yoda = {
       name : "Yoda",
       health : 150,
-      attack : 20,
+      attack : 10,
       counter : 20,
     };
 
@@ -115,14 +152,14 @@
     var vader = {
       name : "Darth Vader",
       health : 125,
-      attack : 15,
+      attack : 10,
       counter : 25
     };
 
     var kylo = {
       name : "Kylo Ren",
       health : 100,
-      attack : 10,
+      attack : 6,
       counter : 10
     };
 
@@ -130,8 +167,6 @@
     var enemyChoice = false;
     var chosenOne;
     var enemy;
-    var moreEnemies = "Enemies available to attack";
-    var pickEnemy = "Choose your opponent";
     var attackPoints;
     var hp;
     var counterAttack;
@@ -147,11 +182,13 @@
     }
 
 
+
 $( document ).ready(function() {
 
     // Yoda selected
     $("#yoda").on('click', function() {
-     if (yourChoice === false) {
+      $('#Reset').hide();
+      if (yourChoice === false) {
         $('#yoda').removeClass('character').addClass("hero");
         $('#chosen').append($(this));
         chosenOne = yoda;
@@ -161,10 +198,10 @@ $( document ).ready(function() {
         moveToEnemies();
       }
       else {
-        if (chosenOne === yoda) {
-            alert("Pick new Enemy");
-            return;
-          }
+        if (enemy != null) {
+          alert("Attack Current Opponent");
+          return;
+        }
         $('#chosenEnemy').empty();
         $('#chosenEnemy').append($(this));
         $('#yoda').removeClass('character').addClass('villain');
@@ -178,6 +215,7 @@ $( document ).ready(function() {
 
     //Rey selected
     $("#rey").on('click', function() {
+      $('#Reset').hide();
       if (yourChoice === false) {
         $('#rey').removeClass('character').addClass("hero");
         $('#chosen').append($(this));
@@ -188,10 +226,10 @@ $( document ).ready(function() {
         moveToEnemies();
       }
       else {
-        if (chosenOne === rey) {
-            alert("Pick new Enemy");
-            return;
-          }
+        if (enemy != null) {
+          alert("Attack Current Opponent");
+          return;
+        }
         $('#chosenEnemy').empty();
         $('#chosenEnemy').append($(this));
         $('#rey').removeClass('character').addClass('villain');
@@ -205,34 +243,36 @@ $( document ).ready(function() {
 
     //Darth Vader selected
     $("#vader").on('click', function() {
-       if (yourChoice === false) {
-          $('#vader').removeClass('character').addClass("hero");
-          $('#chosen').append($(this));
-          chosenOne = vader;
-          attackPoints = chosenOne.attack;
-          hp = chosenOne.health;
-          yourChoice = true;
-          moveToEnemies();
+      $('#Reset').hide();
+      if (yourChoice === false) {
+        $('#vader').removeClass('character').addClass("hero");
+        $('#chosen').append($(this));
+        chosenOne = vader;
+        attackPoints = chosenOne.attack;
+        hp = chosenOne.health;
+        yourChoice = true;
+        moveToEnemies();
         }
-        else {
-          if (chosenOne === vader) {
-            alert("Pick new Enemy");
-            return;
-          }
-          $('#chosenEnemy').empty();
-          $('#chosenEnemy').append($(this));
-          $('#vader').removeClass('character').addClass('villain');
-          enemy = vader;
-          oppenentName = enemy.name;
-          counterAttack = enemy.counter;
-          opposingHp = enemy.health;
-          enemyChoice = true;
+      else {
+        if (enemy != null) {
+          alert("Attack Current Opponent");
+          return;
+        }
+        $('#chosenEnemy').empty();
+        $('#chosenEnemy').append($(this));
+        $('#vader').removeClass('character').addClass('villain');
+        enemy = vader;
+        oppenentName = enemy.name;
+        counterAttack = enemy.counter;
+        opposingHp = enemy.health;
+        enemyChoice = true;
         }
       });
 
     //kylo Ren selected
     $("#kylo").on('click', function() {
-       if (yourChoice === false) {
+      $('#Reset').hide();
+      if (yourChoice === false) {
           $('#kylo').removeClass('character').addClass("hero");
           $('#chosen').append($(this));
           chosenOne = kylo;
@@ -242,8 +282,8 @@ $( document ).ready(function() {
           moveToEnemies();
         }
         else {
-          if (chosenOne === kylo) {
-            alert("Pick new Enemy");
+          if (enemy != null) {
+            alert("Attack Current Opponent");
             return;
           }
           $('#chosenEnemy').empty();
@@ -266,24 +306,6 @@ $( document ).ready(function() {
       }
   }
 
-  function reset() {
-    $('#yoda').removeClass('villain hero').addClass('character').appendTo($('.selection'));
-    $('#rey').removeClass('villain hero').addClass('character').appendTo($('.selection'));
-    $('#vader').removeClass('villain hero').addClass('character').appendTo($('.selection'));
-    $('#kylo').removeClass('villain hero').addClass('character').appendTo($('.selection'));
-    $('#info').empty();
-    $('#counterInfo').empty();
-    $('#chosenEnemy').empty();
-    var enemyChoice = false;
-    yoda.health = 150;
-    rey.health = 75;
-    vader.health = 125;
-    kylo.health = 100;
-    updateHealth();
-
-
-  }
-
   function becomeFalse() {
       yourChoice = false; 
   }
@@ -291,6 +313,7 @@ $( document ).ready(function() {
   //Attack Button Function
   $('#attack').on('click', function() {
 
+    // Calculating health points
     if (hp > 0) {
       opposingHp = opposingHp - attackPoints;
       hp = hp - counterAttack;
@@ -301,27 +324,51 @@ $( document ).ready(function() {
       enemy.health = opposingHp;
       updateHealth();
 
-      if (hp <= 0) {
-        alert("Game Over");
-      }
-      else if (opposingHp <= 0) {
+      //user choice wins
+      if (opposingHp <= 0) {
         $('.villain').appendTo('#placeholder');
-       // $('#chosenEnemy').hide();
         $('#info').text("You have defeated " + oppenentName + "! Pick new Enemy");
         $('#counterInfo').empty();
         enemyChoice = false;
+        enemy = null;
         opposingHp = opposingHp;
         enemiesDefeated++;
         if (enemiesDefeated >= 3) {
           $('#info').empty();
           $('#chosenEnemy').text("Congrats! You have defeated all the Enemies. You are victorious!");
-          reset();
-          becomeFalse();
-  
+          $('#Reset').show();
         }
       }
+      // user choice loses
+      else if (hp < 0) {
+        $('.villain').appendTo('#placeholder');
+        $('#chosenEnemy').text("Game Over");
+        $('#Reset').show();
+      }
+
     }
   });
+
+  //Reset button
+  $('#Reset').on('click', function() {
+    $('#yoda').removeClass('villain hero').addClass('character').appendTo($('.selection'));
+    $('#rey').removeClass('villain hero').addClass('character').appendTo($('.selection'));
+    $('#vader').removeClass('villain hero').addClass('character').appendTo($('.selection'));
+    $('#kylo').removeClass('villain hero').addClass('character').appendTo($('.selection'));
+    $('#info').empty();
+    $('#counterInfo').empty();
+    $('#chosenEnemy').empty();
+    enemyChoice = false;
+    yoda.health = 150;
+    rey.health = 75;
+    vader.health = 125;
+    kylo.health = 100;
+    updateHealth();
+    enemiesDefeated = 0;
+    enemy = null;
+    chosenOne = null;
+    yourChoice = false;
+  }); 
 
   </script>
 </body>
