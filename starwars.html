@@ -202,6 +202,9 @@ $( document ).ready(function() {
           alert("Attack Current Opponent");
           return;
         }
+        if (chosenOne === yoda) {
+          return;
+        }
         $('#chosenEnemy').empty();
         $('#chosenEnemy').append($(this));
         $('#yoda').removeClass('character').addClass('villain');
@@ -228,6 +231,9 @@ $( document ).ready(function() {
       else {
         if (enemy != null) {
           alert("Attack Current Opponent");
+          return;
+        }
+        if (chosenOne === rey) {
           return;
         }
         $('#chosenEnemy').empty();
@@ -258,6 +264,9 @@ $( document ).ready(function() {
           alert("Attack Current Opponent");
           return;
         }
+        if (chosenOne === vader) {
+          return;
+        }
         $('#chosenEnemy').empty();
         $('#chosenEnemy').append($(this));
         $('#vader').removeClass('character').addClass('villain');
@@ -286,6 +295,9 @@ $( document ).ready(function() {
             alert("Attack Current Opponent");
             return;
           }
+          if (chosenOne === kylo) {
+            return;
+          }
           $('#chosenEnemy').empty();
           $('#chosenEnemy').append($(this));
           $('#kylo').removeClass('character').addClass('villain');
@@ -304,10 +316,6 @@ $( document ).ready(function() {
       if (yourChoice === true) {
         $('.character').appendTo($('#AvailEnemies'));
       }
-  }
-
-  function becomeFalse() {
-      yourChoice = false; 
   }
 
   //Attack Button Function
@@ -340,7 +348,7 @@ $( document ).ready(function() {
         }
       }
       // user choice loses
-      else if (hp < 0) {
+      else if (hp <= 0) {
         $('.villain').appendTo('#placeholder');
         $('#chosenEnemy').text("Game Over");
         $('#Reset').show();
