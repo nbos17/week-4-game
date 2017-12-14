@@ -1,0 +1,97 @@
+body {
+      font-family: sans-serif;
+      background-image:url("../Images/background.jpg");
+    }
+  #heading {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  h1 {  
+    color: white;
+    font-size: 25px;
+    margin-bottom: 20px;
+
+  }
+  .character {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    width: 200px;
+    height: 150px;
+    float: left;
+    margin: 20px;
+    align-items: center;
+    text-align: center;
+    background-color: grey;
+    align-items: center;
+  }
+  .villain {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    width: 200px;
+    height: 150px;
+    float: left;
+    margin: 20px;
+    align-items: center;
+    text-align: center;
+    background-color: grey;
+    align-items: center;
+  }
+  .hero {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    width: 200px;
+    height: 150px;
+    float: left;
+    margin: 20px;
+    align-items: center;
+    text-align: center;
+    background-color: grey;
+    align-items: center;
+  }
+  h2 {
+    color: white;
+    clear: both;
+    font-size: 25px;
+    font-weight: bold;
+  }
+  .container {
+    width: 100%;
+    margin: 0 auto;
+  }
+  #chosen {
+    clear: both;
+  }
+  #chosenEnemy {
+    clear: both;
+  }
+  .holder {
+    margin-bottom: 30px;
+    clear: both;
+  }
+  #placeholder {
+    display: none;
+    clear: both;
+  }
+  .image {
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin-left: 48px;
+    margin-right: 48px;
+    margin-top: 5px;
+  }
+  span {
+    color: white;
+    font-weight: bold;
+  }
+  p {
+    color: white;
+    margin-bottom: 3px;
+    margin-top: 3px;
+  }
