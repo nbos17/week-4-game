@@ -69,6 +69,7 @@ body {
   }
   #chosenEnemy {
     clear: both;
+    color: white;
   }
   .holder {
     margin-bottom: 30px;
